@@ -20,6 +20,7 @@ def get_kodi_json(method, params):
     json_query = xbmc.executeJSONRPC('{"jsonrpc": "2.0", "method": "%s", "params": %s, "id": 1}' % (method, json.dumps(params)))
     return json.loads(json_query)
 
+
 def close_dialog():
     if int(xbmc.getInfoLabel('System.BuildVersion')[:2]) > KODI_VERSION_THRESHOLD:
         xbmc.sleep(50)
@@ -28,8 +29,10 @@ def close_dialog():
         xbmc.sleep(50)
         xbmc.executebuiltin(BUSY_DIALOG)
 
+
 def handle_autocomplete(params):
     return AutoCompletion.get_autocomplete_items(params["id"], params.get("limit", 10))
+
 
 def handle_selectautocomplete(params):
     if params.get("handle"):
@@ -49,6 +52,7 @@ def handle_selectautocomplete(params):
     xbmc.executeJSONRPC(json.dumps(kodi_params))
     window.setFocusId(300)
 
+
 def start_info_actions(infos, params):
     listitems = []
     for info in infos:
@@ -57,6 +61,7 @@ def start_info_actions(infos, params):
         elif info == 'selectautocomplete':
             handle_selectautocomplete(params)
         pass_list_to_skin(data=listitems, handle=params.get("handle", ""), limit=params.get("limit", 20))
+
 
 def pass_list_to_skin(data=None, handle=None, limit=None):
     if data is None:
@@ -91,6 +96,7 @@ def create_listitems(data):
         listitem.setProperty("isPlayable", "false")
         itemlist.append(listitem)
     return itemlist
+
 
 if __name__ == "__main__":
     xbmc.log(f"version {ADDON_VERSION} started")
