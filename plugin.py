@@ -8,6 +8,7 @@ import xbmcaddon
 import simplejson as json
 import AutoCompletion
 from typing import List, Dict, Optional
+from urllib.parse import parse_qsl
 
 ADDON = xbmcaddon.Addon()
 ADDON_VERSION = ADDON.getAddonInfo('version')
@@ -97,16 +98,9 @@ if __name__ == "__main__":
     handle = int(sys.argv[1])
     infos = []
     params = {"handle": handle}
-    delimiter = "&&"
-    for arg in args.split(delimiter):
-        param = arg.replace('"', '').replace("'", " ")
-        if param.startswith('info='):
-            infos.append(param[5:])
-        else:
-            try:
-                params[param.split("=")[0].lower()] = "=".join(param.split("=")[1:]).strip()
-            except Exception:
-                pass
+    params.update(dict(parse_qsl(args, keep_blank_values=True)))
+    if "info" in params:
+        infos.append(params['info'])
     if infos:
         start_info_actions(infos, params)
-    xbmc.log('finished')
+xbmc.log('finished')
