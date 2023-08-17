@@ -5,7 +5,7 @@ import xbmc
 import xbmcgui
 import xbmcplugin
 import xbmcaddon
-import simplejson as json
+import json
 import AutoCompletion
 from urllib.parse import parse_qsl
 
