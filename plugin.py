@@ -7,7 +7,6 @@ import xbmcplugin
 import xbmcaddon
 import simplejson as json
 import AutoCompletion
-from typing import List, Dict, Optional
 from urllib.parse import parse_qsl
 
 ADDON = xbmcaddon.Addon()
@@ -59,7 +58,7 @@ def start_info_actions(infos, params):
             handle_selectautocomplete(params)
         pass_list_to_skin(data=listitems, handle=params.get("handle", ""), limit=params.get("limit", 20))
 
-def pass_list_to_skin(data: Optional[List[Dict]] = None, handle: Optional[int] = None, limit: Optional[int] = None) -> None:
+def pass_list_to_skin(data=None, handle=None, limit=None):
     if data is None:
         data = []
     limit = int(limit) if limit else None
@@ -74,7 +73,8 @@ def pass_list_to_skin(data: Optional[List[Dict]] = None, handle: Optional[int] =
         )
     xbmcplugin.endOfDirectory(handle)
 
-def create_listitems(data: List[Dict]) -> List[xbmcgui.ListItem]:
+
+def create_listitems(data):
     itemlist = []
     for count, result in enumerate(data):
         listitem = xbmcgui.ListItem(str(count))
